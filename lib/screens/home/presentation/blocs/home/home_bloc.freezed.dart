@@ -20,18 +20,21 @@ mixin _$HomeState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadInProgress,
+    required TResult Function(List<PostResponse>? postList) loadAllPosts,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loadInProgress,
+    TResult? Function(List<PostResponse>? postList)? loadAllPosts,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadInProgress,
+    TResult Function(List<PostResponse>? postList)? loadAllPosts,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +42,21 @@ mixin _$HomeState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_LoadInProgress value) loadInProgress,
+    required TResult Function(_LoadAllPosts value) loadAllPosts,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_LoadInProgress value)? loadInProgress,
+    TResult? Function(_LoadAllPosts value)? loadAllPosts,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_LoadInProgress value)? loadInProgress,
+    TResult Function(_LoadAllPosts value)? loadAllPosts,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -113,6 +119,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadInProgress,
+    required TResult Function(List<PostResponse>? postList) loadAllPosts,
   }) {
     return initial();
   }
@@ -122,6 +129,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loadInProgress,
+    TResult? Function(List<PostResponse>? postList)? loadAllPosts,
   }) {
     return initial?.call();
   }
@@ -131,6 +139,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadInProgress,
+    TResult Function(List<PostResponse>? postList)? loadAllPosts,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -144,6 +153,7 @@ class _$InitialImpl implements _Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_LoadInProgress value) loadInProgress,
+    required TResult Function(_LoadAllPosts value) loadAllPosts,
   }) {
     return initial(this);
   }
@@ -153,6 +163,7 @@ class _$InitialImpl implements _Initial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_LoadInProgress value)? loadInProgress,
+    TResult? Function(_LoadAllPosts value)? loadAllPosts,
   }) {
     return initial?.call(this);
   }
@@ -162,6 +173,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_LoadInProgress value)? loadInProgress,
+    TResult Function(_LoadAllPosts value)? loadAllPosts,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -215,6 +227,7 @@ class _$LoadInProgressImpl implements _LoadInProgress {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadInProgress,
+    required TResult Function(List<PostResponse>? postList) loadAllPosts,
   }) {
     return loadInProgress();
   }
@@ -224,6 +237,7 @@ class _$LoadInProgressImpl implements _LoadInProgress {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loadInProgress,
+    TResult? Function(List<PostResponse>? postList)? loadAllPosts,
   }) {
     return loadInProgress?.call();
   }
@@ -233,6 +247,7 @@ class _$LoadInProgressImpl implements _LoadInProgress {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadInProgress,
+    TResult Function(List<PostResponse>? postList)? loadAllPosts,
     required TResult orElse(),
   }) {
     if (loadInProgress != null) {
@@ -246,6 +261,7 @@ class _$LoadInProgressImpl implements _LoadInProgress {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_LoadInProgress value) loadInProgress,
+    required TResult Function(_LoadAllPosts value) loadAllPosts,
   }) {
     return loadInProgress(this);
   }
@@ -255,6 +271,7 @@ class _$LoadInProgressImpl implements _LoadInProgress {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_LoadInProgress value)? loadInProgress,
+    TResult? Function(_LoadAllPosts value)? loadAllPosts,
   }) {
     return loadInProgress?.call(this);
   }
@@ -264,6 +281,7 @@ class _$LoadInProgressImpl implements _LoadInProgress {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_LoadInProgress value)? loadInProgress,
+    TResult Function(_LoadAllPosts value)? loadAllPosts,
     required TResult orElse(),
   }) {
     if (loadInProgress != null) {
@@ -275,6 +293,155 @@ class _$LoadInProgressImpl implements _LoadInProgress {
 
 abstract class _LoadInProgress implements HomeState {
   const factory _LoadInProgress() = _$LoadInProgressImpl;
+}
+
+/// @nodoc
+abstract class _$$LoadAllPostsImplCopyWith<$Res> {
+  factory _$$LoadAllPostsImplCopyWith(
+          _$LoadAllPostsImpl value, $Res Function(_$LoadAllPostsImpl) then) =
+      __$$LoadAllPostsImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<PostResponse>? postList});
+}
+
+/// @nodoc
+class __$$LoadAllPostsImplCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$LoadAllPostsImpl>
+    implements _$$LoadAllPostsImplCopyWith<$Res> {
+  __$$LoadAllPostsImplCopyWithImpl(
+      _$LoadAllPostsImpl _value, $Res Function(_$LoadAllPostsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? postList = freezed,
+  }) {
+    return _then(_$LoadAllPostsImpl(
+      postList: freezed == postList
+          ? _value._postList
+          : postList // ignore: cast_nullable_to_non_nullable
+              as List<PostResponse>?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LoadAllPostsImpl implements _LoadAllPosts {
+  const _$LoadAllPostsImpl({final List<PostResponse>? postList})
+      : _postList = postList;
+
+  final List<PostResponse>? _postList;
+  @override
+  List<PostResponse>? get postList {
+    final value = _postList;
+    if (value == null) return null;
+    if (_postList is EqualUnmodifiableListView) return _postList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'HomeState.loadAllPosts(postList: $postList)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LoadAllPostsImpl &&
+            const DeepCollectionEquality().equals(other._postList, _postList));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_postList));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadAllPostsImplCopyWith<_$LoadAllPostsImpl> get copyWith =>
+      __$$LoadAllPostsImplCopyWithImpl<_$LoadAllPostsImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loadInProgress,
+    required TResult Function(List<PostResponse>? postList) loadAllPosts,
+  }) {
+    return loadAllPosts(postList);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loadInProgress,
+    TResult? Function(List<PostResponse>? postList)? loadAllPosts,
+  }) {
+    return loadAllPosts?.call(postList);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loadInProgress,
+    TResult Function(List<PostResponse>? postList)? loadAllPosts,
+    required TResult orElse(),
+  }) {
+    if (loadAllPosts != null) {
+      return loadAllPosts(postList);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_LoadInProgress value) loadInProgress,
+    required TResult Function(_LoadAllPosts value) loadAllPosts,
+  }) {
+    return loadAllPosts(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_LoadInProgress value)? loadInProgress,
+    TResult? Function(_LoadAllPosts value)? loadAllPosts,
+  }) {
+    return loadAllPosts?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_LoadInProgress value)? loadInProgress,
+    TResult Function(_LoadAllPosts value)? loadAllPosts,
+    required TResult orElse(),
+  }) {
+    if (loadAllPosts != null) {
+      return loadAllPosts(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LoadAllPosts implements HomeState {
+  const factory _LoadAllPosts({final List<PostResponse>? postList}) =
+      _$LoadAllPostsImpl;
+
+  List<PostResponse>? get postList;
+  @JsonKey(ignore: true)
+  _$$LoadAllPostsImplCopyWith<_$LoadAllPostsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

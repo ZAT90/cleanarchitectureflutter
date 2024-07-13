@@ -1,36 +1,31 @@
 import 'package:cleanarchitectureflutter/core/network/models/network_response.dart';
 
 abstract class NetworkMethods {
-  Future<NetworkResponse<T>> get<T>(
-    String path,
-    T Function(dynamic) parser, {
+  Future<NetworkResponse<T>> get<T>({
+   required String path,
     Map<String, dynamic>? queryParams,
   });
 
-  Future<NetworkResponse<T>> post<T>(
-    String path,
+  Future<NetworkResponse<T>> post<T>({
+   required String path,
     dynamic requestBody,
-    T Function(dynamic) parser, {
     Map<String, dynamic>? queryParams,
   });
 
-  Future<NetworkResponse<T>> put<T>(
-    String path,
+  Future<NetworkResponse<T>> put<T>({
+  required  String path,
     dynamic requestBody,
-    T Function(dynamic) parser, {
     Map<String, dynamic>? queryParams,
   });
 
-  Future<NetworkResponse<T>> patch<T>(
-    String path,
+  Future<NetworkResponse<T>> patch<T>({
+   required String path,
     dynamic requestBody,
-    T Function(dynamic) parser, {
     Map<String, dynamic>? queryParams,
   });
 
-  Future<NetworkResponse<T>> delete<T>(
-    String path,
-    T Function(dynamic) parser, {
+  Future<NetworkResponse<T>> delete<T>({
+   required String path,
     Map<String, dynamic>? queryParams,
   });
 }

@@ -4,4 +4,5 @@ part of 'home_bloc.dart';
 class HomeState with _$HomeState {
   const factory HomeState.initial() = _Initial;
   const factory HomeState.loadInProgress() = _LoadInProgress;
+  const factory HomeState.loadAllPosts({List<PostResponse>? postList}) = _LoadAllPosts;
 }

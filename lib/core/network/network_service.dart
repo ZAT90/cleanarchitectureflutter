@@ -1,3 +1,4 @@
+import 'package:cleanarchitectureflutter/core/constants/api_constants.dart';
 import 'package:cleanarchitectureflutter/core/network/models/network_request_body.dart';
 import 'package:cleanarchitectureflutter/core/network/models/network_response.dart';
 import 'package:cleanarchitectureflutter/core/network/network_methods.dart';
@@ -109,7 +110,7 @@ class NetworkService implements NetworkMethods {
   //       _headers = httpHeaders ?? {};
   Dio? _dio;
   //String baseUrl = ApiConstants.baseUrl;
-  String baseUrl = 'https://jsonplaceholder.typicode.com';
+  String baseUrl = ApiConstants.baseUrl;
   final Map<String, String> _headers = <String, String>{};
   Future<Dio> _getDefaultDioClient() async {
     _headers['content-type'] = 'application/json; charset=utf-8';
@@ -127,7 +128,8 @@ class NetworkService implements NetworkMethods {
 
   Future<NetworkResponse<Model>> execute<Model>(
     NetworkRequest request,
-    Model Function(dynamic) parser, {
+    // Model Function(dynamic) parser,
+    {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
@@ -144,17 +146,19 @@ class NetworkService implements NetworkMethods {
       onSendProgress,
       onReceiveProgress,
     );
-    final result = await compute(
-      executeRequest<Model>,
+    final result = await executeRequest<Model>(
       req,
     );
+    // final result = await compute(
+    //   executeRequest<Model>,
+    //   req,
+    // );
     return result;
   }
 
   @override
   Future<NetworkResponse<T>> delete<T>(
-      String path, T Function(dynamic p1) parser,
-      {Map<String, dynamic>? queryParams}) async {
+      {required String path, Map<String, dynamic>? queryParams}) async {
     final request = NetworkRequest(
       type: NetworkRequestType.DELETE,
       path: path,
@@ -163,13 +167,12 @@ class NetworkService implements NetworkMethods {
 
     return execute<T>(
       request,
-      parser,
     );
   }
 
   @override
-  Future<NetworkResponse<T>> get<T>(String path, T Function(dynamic p1) parser,
-      {Map<String, dynamic>? queryParams}) {
+  Future<NetworkResponse<T>> get<T>(
+      {required String path, Map<String, dynamic>? queryParams}) {
     final request = NetworkRequest(
       type: NetworkRequestType.GET,
       path: path,
@@ -178,14 +181,12 @@ class NetworkService implements NetworkMethods {
 
     return execute<T>(
       request,
-      parser,
     );
   }
 
   @override
   Future<NetworkResponse<T>> patch<T>(
-      String path, requestBody, T Function(dynamic p1) parser,
-      {Map<String, dynamic>? queryParams}) {
+      {required String path, requestBody, Map<String, dynamic>? queryParams}) {
     final request = NetworkRequest(
       type: NetworkRequestType.PATCH,
       path: path,
@@ -194,14 +195,12 @@ class NetworkService implements NetworkMethods {
 
     return execute<T>(
       request,
-      parser,
     );
   }
 
   @override
   Future<NetworkResponse<T>> post<T>(
-      String path, requestBody, T Function(dynamic p1) parser,
-      {Map<String, dynamic>? queryParams}) {
+      {required String path, requestBody, Map<String, dynamic>? queryParams}) {
     final request = NetworkRequest(
       type: NetworkRequestType.POST,
       path: path,
@@ -210,14 +209,12 @@ class NetworkService implements NetworkMethods {
 
     return execute<T>(
       request,
-      parser,
     );
   }
 
   @override
   Future<NetworkResponse<T>> put<T>(
-      String path, requestBody, T Function(dynamic p1) parser,
-      {Map<String, dynamic>? queryParams}) {
+      {required String path, requestBody, Map<String, dynamic>? queryParams}) {
     final request = NetworkRequest(
       type: NetworkRequestType.PUT,
       path: path,
@@ -226,7 +223,6 @@ class NetworkService implements NetworkMethods {
 
     return execute<T>(
       request,
-      parser,
     );
   }
 }
