@@ -2,6 +2,7 @@ import 'package:cleanarchitectureflutter/core/constants/navigation_constants.dar
 import 'package:cleanarchitectureflutter/core/constants/ui_constants.dart';
 import 'package:cleanarchitectureflutter/core/utils/helpers.dart';
 import 'package:cleanarchitectureflutter/core/utils/logger.dart';
+import 'package:cleanarchitectureflutter/core/utils/nav_args.dart';
 import 'package:cleanarchitectureflutter/screens/home/models/response/post_response.dart';
 import 'package:cleanarchitectureflutter/screens/home/presentation/blocs/home/home_bloc.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<PostResponse> posts = [];
+  //List<PostResponse> posts = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,39 +26,59 @@ class _HomePageState extends State<HomePage> {
         width: UiConstants(context).screenWidth,
         child: BlocConsumer<HomeBloc, HomeState>(
           listener: (BuildContext context, HomeState state) {
-            state.whenOrNull(
-              loadAllPosts: (postList) {
-                logger.d('postList in ui: ${postList!.length}');
-                posts.addAll(postList);
-              },
-            );
+            // state.whenOrNull(
+            //   loadAllPosts: (postList) {
+            //     logger.d('postList in ui: ${postList!.length}');
+            //     posts.addAll(postList);
+            //   },
+            // );
           },
           builder: (context, state) {
-            logger.d('state in builder: $state');
+            // logger.d('state in builder: $state');
             return SingleChildScrollView(
-              child: Column(
-                children: [
-                  posts.isEmpty
-                      ? Text('this is empty')
-                      : ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: posts.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(posts[index].title!),
-                            );
-                          }),
-                  ElevatedButton(
-                      onPressed: () => Navigator.pushNamed(
-                          context, NavigationConstants.comment),
-                      child: Text('go to comment'))
-                ],
-              ),
-            );
+                child: state.whenOrNull(
+              initial: () => const Center(child: CircularProgressIndicator()),
+              loadAllPosts: (postList) {
+                return postListView(postList);
+              },
+            ));
           },
         ),
       ),
+    );
+  }
+
+  Widget postListView(List<PostResponse>? postList) {
+    return ListView.separated(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: postList!.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.all(10),
+          child: ListTile(
+            onTap: () => Navigator.pushNamed(
+                context, NavigationConstants.comment,
+                arguments: CommentNavArgs(post: postList[index])),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+                side: const BorderSide(color: Colors.black)),
+            title: Text(postList[index].title!),
+            subtitle: Text(
+              postList[index].body!,
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.arrow_right_alt_sharp)),
+          ),
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return const SizedBox(
+          height: 5,
+        );
+      },
     );
   }
 }

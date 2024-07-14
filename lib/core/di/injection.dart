@@ -1,4 +1,6 @@
 import 'package:cleanarchitectureflutter/core/di/injection.config.dart';
+import 'package:cleanarchitectureflutter/screens/comment/domain/repo/comment_repo.dart';
+import 'package:cleanarchitectureflutter/screens/comment/presentation/blocs/comment/comment_bloc.dart';
 import 'package:cleanarchitectureflutter/screens/home/domain/repo/home_repo.dart';
 import 'package:cleanarchitectureflutter/screens/home/presentation/blocs/home/home_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -19,5 +21,9 @@ abstract class RegisterModule {
   @factoryMethod
   HomeBloc get homeBloc => HomeBloc(
         getIt<HomeRepository>(),
+      );
+  @factoryMethod
+  CommentBloc get commentBloc => CommentBloc(
+        getIt<CommentRepository>(),
       );
 }

@@ -11,15 +11,15 @@
 //   return false;
 // }
 
-extension NullableObjectExtensions on Object? {
-  bool get isNullOrEmpty {
-    if (this == null) return true;
-    if (this is String) return (this as String).isEmpty;
-    if (this is Iterable) return (this as Iterable).isEmpty;
-    if (this is Map) return (this as Map).isEmpty;
-    return false;
-  }
-}
+// extension NullableObjectExtensions on Object? {
+//   bool get isNullOrEmpty {
+//     if (this == null) return true;
+//     if (this is String) return (this as String).isEmpty;
+//     if (this is Iterable) return (this as Iterable).isEmpty;
+//     if (this is Map) return (this as Map).isEmpty;
+//     return false;
+//   }
+// }
 
 // bool isNotNullOrEmpty(dynamic o) =>
 //   o != null || "" != o;

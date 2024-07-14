@@ -16,16 +16,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final posts = await homeRepository.getPosts();
         emit(HomeState.loadAllPosts(postList: posts));
       });
-      //  event.map(loadItems: ()  {
-      //   final posts = await homeRepository.getPosts();
-      //   //  logger.d('posts: ${posts.length}');
-      //   emit(HomeState.loadAllPosts(postList: posts));
-      // });
-      // event.when(loadItems: () async {
-      //   final posts = await homeRepository.getPosts();
-      //   //  logger.d('posts: ${posts.length}');
-      //   emit(HomeState.loadAllPosts(postList: posts));
-      // });
     });
   }
 }

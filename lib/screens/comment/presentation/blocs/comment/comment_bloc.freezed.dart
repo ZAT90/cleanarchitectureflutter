@@ -20,18 +20,25 @@ mixin _$CommentState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadInProgress,
+    required TResult Function(
+            PostResponse? post, List<CommentResponse>? comments)
+        getCommentsAndPost,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loadInProgress,
+    TResult? Function(PostResponse? post, List<CommentResponse>? comments)?
+        getCommentsAndPost,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadInProgress,
+    TResult Function(PostResponse? post, List<CommentResponse>? comments)?
+        getCommentsAndPost,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +46,21 @@ mixin _$CommentState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_LoadInProgress value) loadInProgress,
+    required TResult Function(_GetCommentsAndPost value) getCommentsAndPost,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_LoadInProgress value)? loadInProgress,
+    TResult? Function(_GetCommentsAndPost value)? getCommentsAndPost,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_LoadInProgress value)? loadInProgress,
+    TResult Function(_GetCommentsAndPost value)? getCommentsAndPost,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -114,6 +124,9 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadInProgress,
+    required TResult Function(
+            PostResponse? post, List<CommentResponse>? comments)
+        getCommentsAndPost,
   }) {
     return initial();
   }
@@ -123,6 +136,8 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loadInProgress,
+    TResult? Function(PostResponse? post, List<CommentResponse>? comments)?
+        getCommentsAndPost,
   }) {
     return initial?.call();
   }
@@ -132,6 +147,8 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadInProgress,
+    TResult Function(PostResponse? post, List<CommentResponse>? comments)?
+        getCommentsAndPost,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -145,6 +162,7 @@ class _$InitialImpl implements _Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_LoadInProgress value) loadInProgress,
+    required TResult Function(_GetCommentsAndPost value) getCommentsAndPost,
   }) {
     return initial(this);
   }
@@ -154,6 +172,7 @@ class _$InitialImpl implements _Initial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_LoadInProgress value)? loadInProgress,
+    TResult? Function(_GetCommentsAndPost value)? getCommentsAndPost,
   }) {
     return initial?.call(this);
   }
@@ -163,6 +182,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_LoadInProgress value)? loadInProgress,
+    TResult Function(_GetCommentsAndPost value)? getCommentsAndPost,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -216,6 +236,9 @@ class _$LoadInProgressImpl implements _LoadInProgress {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadInProgress,
+    required TResult Function(
+            PostResponse? post, List<CommentResponse>? comments)
+        getCommentsAndPost,
   }) {
     return loadInProgress();
   }
@@ -225,6 +248,8 @@ class _$LoadInProgressImpl implements _LoadInProgress {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loadInProgress,
+    TResult? Function(PostResponse? post, List<CommentResponse>? comments)?
+        getCommentsAndPost,
   }) {
     return loadInProgress?.call();
   }
@@ -234,6 +259,8 @@ class _$LoadInProgressImpl implements _LoadInProgress {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadInProgress,
+    TResult Function(PostResponse? post, List<CommentResponse>? comments)?
+        getCommentsAndPost,
     required TResult orElse(),
   }) {
     if (loadInProgress != null) {
@@ -247,6 +274,7 @@ class _$LoadInProgressImpl implements _LoadInProgress {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_LoadInProgress value) loadInProgress,
+    required TResult Function(_GetCommentsAndPost value) getCommentsAndPost,
   }) {
     return loadInProgress(this);
   }
@@ -256,6 +284,7 @@ class _$LoadInProgressImpl implements _LoadInProgress {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_LoadInProgress value)? loadInProgress,
+    TResult? Function(_GetCommentsAndPost value)? getCommentsAndPost,
   }) {
     return loadInProgress?.call(this);
   }
@@ -265,6 +294,7 @@ class _$LoadInProgressImpl implements _LoadInProgress {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_LoadInProgress value)? loadInProgress,
+    TResult Function(_GetCommentsAndPost value)? getCommentsAndPost,
     required TResult orElse(),
   }) {
     if (loadInProgress != null) {
@@ -279,20 +309,200 @@ abstract class _LoadInProgress implements CommentState {
 }
 
 /// @nodoc
-mixin _$CommentEvent {
+abstract class _$$GetCommentsAndPostImplCopyWith<$Res> {
+  factory _$$GetCommentsAndPostImplCopyWith(_$GetCommentsAndPostImpl value,
+          $Res Function(_$GetCommentsAndPostImpl) then) =
+      __$$GetCommentsAndPostImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({PostResponse? post, List<CommentResponse>? comments});
+
+  $PostResponseCopyWith<$Res>? get post;
+}
+
+/// @nodoc
+class __$$GetCommentsAndPostImplCopyWithImpl<$Res>
+    extends _$CommentStateCopyWithImpl<$Res, _$GetCommentsAndPostImpl>
+    implements _$$GetCommentsAndPostImplCopyWith<$Res> {
+  __$$GetCommentsAndPostImplCopyWithImpl(_$GetCommentsAndPostImpl _value,
+      $Res Function(_$GetCommentsAndPostImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? post = freezed,
+    Object? comments = freezed,
+  }) {
+    return _then(_$GetCommentsAndPostImpl(
+      post: freezed == post
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as PostResponse?,
+      comments: freezed == comments
+          ? _value._comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as List<CommentResponse>?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PostResponseCopyWith<$Res>? get post {
+    if (_value.post == null) {
+      return null;
+    }
+
+    return $PostResponseCopyWith<$Res>(_value.post!, (value) {
+      return _then(_value.copyWith(post: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$GetCommentsAndPostImpl implements _GetCommentsAndPost {
+  const _$GetCommentsAndPostImpl(
+      {this.post, final List<CommentResponse>? comments})
+      : _comments = comments;
+
+  @override
+  final PostResponse? post;
+  final List<CommentResponse>? _comments;
+  @override
+  List<CommentResponse>? get comments {
+    final value = _comments;
+    if (value == null) return null;
+    if (_comments is EqualUnmodifiableListView) return _comments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'CommentState.getCommentsAndPost(post: $post, comments: $comments)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetCommentsAndPostImpl &&
+            (identical(other.post, post) || other.post == post) &&
+            const DeepCollectionEquality().equals(other._comments, _comments));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, post, const DeepCollectionEquality().hash(_comments));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetCommentsAndPostImplCopyWith<_$GetCommentsAndPostImpl> get copyWith =>
+      __$$GetCommentsAndPostImplCopyWithImpl<_$GetCommentsAndPostImpl>(
+          this, _$identity);
+
+  @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() loadComments,
+    required TResult Function() initial,
+    required TResult Function() loadInProgress,
+    required TResult Function(
+            PostResponse? post, List<CommentResponse>? comments)
+        getCommentsAndPost,
+  }) {
+    return getCommentsAndPost(post, comments);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loadInProgress,
+    TResult? Function(PostResponse? post, List<CommentResponse>? comments)?
+        getCommentsAndPost,
+  }) {
+    return getCommentsAndPost?.call(post, comments);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loadInProgress,
+    TResult Function(PostResponse? post, List<CommentResponse>? comments)?
+        getCommentsAndPost,
+    required TResult orElse(),
+  }) {
+    if (getCommentsAndPost != null) {
+      return getCommentsAndPost(post, comments);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_LoadInProgress value) loadInProgress,
+    required TResult Function(_GetCommentsAndPost value) getCommentsAndPost,
+  }) {
+    return getCommentsAndPost(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_LoadInProgress value)? loadInProgress,
+    TResult? Function(_GetCommentsAndPost value)? getCommentsAndPost,
+  }) {
+    return getCommentsAndPost?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_LoadInProgress value)? loadInProgress,
+    TResult Function(_GetCommentsAndPost value)? getCommentsAndPost,
+    required TResult orElse(),
+  }) {
+    if (getCommentsAndPost != null) {
+      return getCommentsAndPost(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetCommentsAndPost implements CommentState {
+  const factory _GetCommentsAndPost(
+      {final PostResponse? post,
+      final List<CommentResponse>? comments}) = _$GetCommentsAndPostImpl;
+
+  PostResponse? get post;
+  List<CommentResponse>? get comments;
+  @JsonKey(ignore: true)
+  _$$GetCommentsAndPostImplCopyWith<_$GetCommentsAndPostImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$CommentEvent {
+  PostResponse? get post => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(PostResponse? post) loadComments,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loadComments,
+    TResult? Function(PostResponse? post)? loadComments,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loadComments,
+    TResult Function(PostResponse? post)? loadComments,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -312,6 +522,10 @@ mixin _$CommentEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $CommentEventCopyWith<CommentEvent> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -319,6 +533,10 @@ abstract class $CommentEventCopyWith<$Res> {
   factory $CommentEventCopyWith(
           CommentEvent value, $Res Function(CommentEvent) then) =
       _$CommentEventCopyWithImpl<$Res, CommentEvent>;
+  @useResult
+  $Res call({PostResponse? post});
+
+  $PostResponseCopyWith<$Res>? get post;
 }
 
 /// @nodoc
@@ -330,13 +548,45 @@ class _$CommentEventCopyWithImpl<$Res, $Val extends CommentEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? post = freezed,
+  }) {
+    return _then(_value.copyWith(
+      post: freezed == post
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as PostResponse?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PostResponseCopyWith<$Res>? get post {
+    if (_value.post == null) {
+      return null;
+    }
+
+    return $PostResponseCopyWith<$Res>(_value.post!, (value) {
+      return _then(_value.copyWith(post: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
-abstract class _$$LoadCommentsImplCopyWith<$Res> {
+abstract class _$$LoadCommentsImplCopyWith<$Res>
+    implements $CommentEventCopyWith<$Res> {
   factory _$$LoadCommentsImplCopyWith(
           _$LoadCommentsImpl value, $Res Function(_$LoadCommentsImpl) then) =
       __$$LoadCommentsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({PostResponse? post});
+
+  @override
+  $PostResponseCopyWith<$Res>? get post;
 }
 
 /// @nodoc
@@ -346,51 +596,75 @@ class __$$LoadCommentsImplCopyWithImpl<$Res>
   __$$LoadCommentsImplCopyWithImpl(
       _$LoadCommentsImpl _value, $Res Function(_$LoadCommentsImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? post = freezed,
+  }) {
+    return _then(_$LoadCommentsImpl(
+      freezed == post
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as PostResponse?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$LoadCommentsImpl implements _LoadComments {
-  const _$LoadCommentsImpl();
+  const _$LoadCommentsImpl(this.post);
+
+  @override
+  final PostResponse? post;
 
   @override
   String toString() {
-    return 'CommentEvent.loadComments()';
+    return 'CommentEvent.loadComments(post: $post)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoadCommentsImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$LoadCommentsImpl &&
+            (identical(other.post, post) || other.post == post));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, post);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadCommentsImplCopyWith<_$LoadCommentsImpl> get copyWith =>
+      __$$LoadCommentsImplCopyWithImpl<_$LoadCommentsImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() loadComments,
+    required TResult Function(PostResponse? post) loadComments,
   }) {
-    return loadComments();
+    return loadComments(post);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loadComments,
+    TResult? Function(PostResponse? post)? loadComments,
   }) {
-    return loadComments?.call();
+    return loadComments?.call(post);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loadComments,
+    TResult Function(PostResponse? post)? loadComments,
     required TResult orElse(),
   }) {
     if (loadComments != null) {
-      return loadComments();
+      return loadComments(post);
     }
     return orElse();
   }
@@ -425,5 +699,12 @@ class _$LoadCommentsImpl implements _LoadComments {
 }
 
 abstract class _LoadComments implements CommentEvent {
-  const factory _LoadComments() = _$LoadCommentsImpl;
+  const factory _LoadComments(final PostResponse? post) = _$LoadCommentsImpl;
+
+  @override
+  PostResponse? get post;
+  @override
+  @JsonKey(ignore: true)
+  _$$LoadCommentsImplCopyWith<_$LoadCommentsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
