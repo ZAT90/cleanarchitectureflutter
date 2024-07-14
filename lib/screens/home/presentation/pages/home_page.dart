@@ -24,15 +24,8 @@ class _HomePageState extends State<HomePage> {
       body: SizedBox(
         height: UiConstants(context).screenHeight,
         width: UiConstants(context).screenWidth,
-        child: BlocConsumer<HomeBloc, HomeState>(
-          listener: (BuildContext context, HomeState state) {
-            // state.whenOrNull(
-            //   loadAllPosts: (postList) {
-            //     logger.d('postList in ui: ${postList!.length}');
-            //     posts.addAll(postList);
-            //   },
-            // );
-          },
+        child: BlocBuilder<HomeBloc, HomeState>(
+          
           builder: (context, state) {
             // logger.d('state in builder: $state');
             return SingleChildScrollView(
