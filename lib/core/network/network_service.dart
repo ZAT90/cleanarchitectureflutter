@@ -3,7 +3,6 @@ import 'package:cleanarchitectureflutter/core/network/models/network_request_bod
 import 'package:cleanarchitectureflutter/core/network/models/network_response.dart';
 import 'package:cleanarchitectureflutter/core/network/network_methods.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 class AccessTokenResponse {
