@@ -1,5 +1,4 @@
 import 'package:cleanarchitectureflutter/core/utils/logger.dart';
-import 'package:cleanarchitectureflutter/screens/comment/domain/repositories/comment_repo.dart';
 import 'package:cleanarchitectureflutter/screens/comment/domain/usecases/get_comments_usecase.dart';
 import 'package:cleanarchitectureflutter/screens/comment/data/models/response/comment_response.dart';
 import 'package:cleanarchitectureflutter/screens/home/data/models/response/post_response.dart';

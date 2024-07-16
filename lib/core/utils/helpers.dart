@@ -1,3 +1,7 @@
+import 'package:cleanarchitectureflutter/core/network/models/network_response.dart';
+import 'package:cleanarchitectureflutter/core/utils/error/api_error_message.dart';
+import 'package:cleanarchitectureflutter/core/utils/logger.dart';
+import 'package:cleanarchitectureflutter/core/utils/type_defs.dart';
 // bool isNullOrEmpty(dynamic value) {
 //   if (value == null) {
 //     return true;
@@ -23,3 +27,24 @@
 
 // bool isNotNullOrEmpty(dynamic o) =>
 //   o != null || "" != o;
+
+Future<dynamic> handleNetworkResponse<T>(NetworkResponse response) async {
+  return response.maybeWhen(
+    ok: (data) => data,
+    orElse: () => throw const ApiErrorMessage(errorMessage: 'api error'),
+    badRequest: (message) =>
+        throw ApiErrorMessage(errorMessage: 'api error: $message'),
+    noData: (message) =>
+        throw ApiErrorMessage(errorMessage: 'api error: $message'),
+    notFound: (message) =>
+        throw ApiErrorMessage(errorMessage: 'api error: $message'),
+    conflict: (message) =>
+        throw ApiErrorMessage(errorMessage: 'api error: $message'),
+    invalidParameters: (message) =>
+        throw ApiErrorMessage(errorMessage: 'api error: $message'),
+    noAccess: (message) =>
+        throw ApiErrorMessage(errorMessage: 'api error: $message'),
+    noAuth: (message) =>
+        throw ApiErrorMessage(errorMessage: 'api error: $message'),
+  );
+}

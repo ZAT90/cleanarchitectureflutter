@@ -30,7 +30,6 @@ abstract class RegisterModule {
   HomeBloc get homeBloc => HomeBloc(
         getIt<GetPostsUseCase>(),
       );
-  @factoryMethod
   CommentBloc get commentBloc => CommentBloc(
         getIt<GetCommentsUseCase>(),
       );

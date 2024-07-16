@@ -1,5 +1,4 @@
 import 'package:cleanarchitectureflutter/core/utils/logger.dart';
-import 'package:cleanarchitectureflutter/screens/home/domain/repositories/home_repo.dart';
 import 'package:cleanarchitectureflutter/screens/home/domain/usecases/get_posts_usecase.dart';
 import 'package:cleanarchitectureflutter/screens/home/data/models/response/post_response.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

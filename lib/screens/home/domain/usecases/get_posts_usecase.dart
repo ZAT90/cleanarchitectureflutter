@@ -5,6 +5,5 @@ import 'package:cleanarchitectureflutter/screens/home/data/models/response/post_
 class GetPostsUseCase {
   final HomeRepository homeRepository;
   GetPostsUseCase(this.homeRepository);
-  ResultFuture<List<PostResponse>> getPosts() async =>
-      await homeRepository.getPosts();
+  ResultFuture<List<PostResponse>> getPosts() => homeRepository.getPosts();
 }

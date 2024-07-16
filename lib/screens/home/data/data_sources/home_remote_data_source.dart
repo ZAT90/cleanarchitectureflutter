@@ -1,7 +1,9 @@
 import 'package:cleanarchitectureflutter/core/constants/api_constants.dart';
+import 'package:cleanarchitectureflutter/core/network/models/network_response.dart';
 import 'package:cleanarchitectureflutter/core/network/network_service.dart';
 import 'package:cleanarchitectureflutter/core/utils/error/api_error_message.dart';
-import 'package:cleanarchitectureflutter/core/utils/type_defs.dart';
+import 'package:cleanarchitectureflutter/core/utils/helpers.dart';
+import 'package:cleanarchitectureflutter/core/utils/logger.dart';
 import 'package:cleanarchitectureflutter/screens/home/data/models/response/post_response.dart';
 import 'package:injectable/injectable.dart';
 
@@ -15,18 +17,11 @@ class HomeRemoteDataSource {
       path: ApiConstants.postsEndpoint,
     );
     //logger.d('networkResponse get posts: $netWorkResponse');
-    return netWorkResponse.maybeWhen(
-      ok: (response) {
-      //  logger.d('response runtimeType: ${response.runtimeType}');
-        List responseList = response;
-        List<PostResponse> postList = responseList
-            .map((res) => PostResponse.fromJson(res))
-            .toList();
-        return postList;
-      },
-      orElse: () => throw const ApiErrorMessage(errorMessage:'api error'),
-      badRequest: (message) => throw  ApiErrorMessage(errorMessage:'api error: $message'),
-      noData: (message) => throw  ApiErrorMessage(errorMessage:'api error: $message'),
-    );
+    final data = await handleNetworkResponse(netWorkResponse);
+    logger.d('networkResponse get data: $data');
+    List responseList = data;
+    List<PostResponse> postList =
+        responseList.map((res) => PostResponse.fromJson(res)).toList();
+    return postList;
   }
 }

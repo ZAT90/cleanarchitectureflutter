@@ -2,6 +2,7 @@ import 'package:cleanarchitectureflutter/core/constants/api_constants.dart';
 import 'package:cleanarchitectureflutter/core/network/models/network_request_body.dart';
 import 'package:cleanarchitectureflutter/core/network/models/network_response.dart';
 import 'package:cleanarchitectureflutter/core/network/network_methods.dart';
+import 'package:cleanarchitectureflutter/core/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -76,17 +77,20 @@ Future<NetworkResponse<Model>> executeRequest<Model>(
     // print('response _preparedNetworkRequest: ${response.data}');
     return NetworkResponse.ok(response.data);
   } on DioException catch (error) {
-    print('error: $error');
+    print('error: ${error}');
     final errorText = error.toString();
-    if (error.requestOptions.cancelToken!.isCancelled) {
+    if (error.requestOptions.cancelToken != null &&
+        error.requestOptions.cancelToken!.isCancelled) {
       return NetworkResponse.noData(errorText);
     }
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.receiveTimeout:
       case DioExceptionType.sendTimeout:
-        return const NetworkResponse.noData("Connection timeout. Please try again.");
+        return const NetworkResponse.noData(
+            "Connection timeout. Please try again.");
       case DioExceptionType.badResponse:
+        logger.d('badResponse detected');
         switch (error.response?.statusCode) {
           case 400:
             return NetworkResponse.badRequest(errorText);
@@ -101,11 +105,12 @@ Future<NetworkResponse<Model>> executeRequest<Model>(
           default:
             return NetworkResponse.noData(errorText);
         }
-     case DioExceptionType.cancel:
+      case DioExceptionType.cancel:
         return const NetworkResponse.noData("Request was cancelled.");
       case DioExceptionType.unknown:
         if (error.message!.contains("SocketException")) {
-          return const NetworkResponse.noData("No internet connection. Please check your network settings.");
+          return const NetworkResponse.noData(
+              "No internet connection. Please check your network settings.");
         }
         return NetworkResponse.noData(errorText);
       default:
@@ -217,10 +222,10 @@ class NetworkService implements NetworkMethods {
   Future<NetworkResponse<T>> patch<T>(
       {required String path, requestBody, Map<String, dynamic>? queryParams}) {
     final request = NetworkRequest(
-      type: NetworkRequestType.PATCH,
-      path: path,
-      queryParams: queryParams,
-    );
+        type: NetworkRequestType.PATCH,
+        path: path,
+        queryParams: queryParams,
+        data: requestBody);
 
     return execute<T>(
       request,
@@ -231,10 +236,10 @@ class NetworkService implements NetworkMethods {
   Future<NetworkResponse<T>> post<T>(
       {required String path, requestBody, Map<String, dynamic>? queryParams}) {
     final request = NetworkRequest(
-      type: NetworkRequestType.POST,
-      path: path,
-      queryParams: queryParams,
-    );
+        type: NetworkRequestType.POST,
+        path: path,
+        queryParams: queryParams,
+        data: requestBody);
 
     return execute<T>(
       request,
