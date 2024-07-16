@@ -81,20 +81,50 @@ Future<NetworkResponse<Model>> executeRequest<Model>(
     if (error.requestOptions.cancelToken!.isCancelled) {
       return NetworkResponse.noData(errorText);
     }
-    switch (error.response?.statusCode) {
-      case 400:
-        return NetworkResponse.badRequest(errorText);
-      case 401:
-        return NetworkResponse.noAuth(errorText);
-      case 403:
-        return NetworkResponse.noAccess(errorText);
-      case 404:
-        return NetworkResponse.notFound(errorText);
-      case 409:
-        return NetworkResponse.conflict(errorText);
+    switch (error.type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.receiveTimeout:
+      case DioExceptionType.sendTimeout:
+        return const NetworkResponse.noData("Connection timeout. Please try again.");
+      case DioExceptionType.badResponse:
+        switch (error.response?.statusCode) {
+          case 400:
+            return NetworkResponse.badRequest(errorText);
+          case 401:
+            return NetworkResponse.noAuth(errorText);
+          case 403:
+            return NetworkResponse.noAccess(errorText);
+          case 404:
+            return NetworkResponse.notFound(errorText);
+          case 409:
+            return NetworkResponse.conflict(errorText);
+          default:
+            return NetworkResponse.noData(errorText);
+        }
+     case DioExceptionType.cancel:
+        return const NetworkResponse.noData("Request was cancelled.");
+      case DioExceptionType.unknown:
+        if (error.message!.contains("SocketException")) {
+          return const NetworkResponse.noData("No internet connection. Please check your network settings.");
+        }
+        return NetworkResponse.noData(errorText);
       default:
         return NetworkResponse.noData(errorText);
     }
+    // switch (error.response?.statusCode) {
+    //   case 400:
+    //     return NetworkResponse.badRequest(errorText);
+    //   case 401:
+    //     return NetworkResponse.noAuth(errorText);
+    //   case 403:
+    //     return NetworkResponse.noAccess(errorText);
+    //   case 404:
+    //     return NetworkResponse.notFound(errorText);
+    //   case 409:
+    //     return NetworkResponse.conflict(errorText);
+    //   default:
+    //     return NetworkResponse.noData(errorText);
+    // }
   } catch (error) {
     return NetworkResponse.noData(error.toString());
   }

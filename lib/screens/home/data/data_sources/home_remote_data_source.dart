@@ -1,6 +1,8 @@
 import 'package:cleanarchitectureflutter/core/constants/api_constants.dart';
 import 'package:cleanarchitectureflutter/core/network/network_service.dart';
-import 'package:cleanarchitectureflutter/screens/home/models/response/post_response.dart';
+import 'package:cleanarchitectureflutter/core/utils/error/api_error_message.dart';
+import 'package:cleanarchitectureflutter/core/utils/type_defs.dart';
+import 'package:cleanarchitectureflutter/screens/home/data/models/response/post_response.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
@@ -22,9 +24,9 @@ class HomeRemoteDataSource {
             .toList();
         return postList;
       },
-      orElse: () => throw Exception('api error'),
-      badRequest: (message) => throw Exception('api error $message'),
-      noData: (message) => throw Exception('api error: $message'),
+      orElse: () => throw const ApiErrorMessage(errorMessage:'api error'),
+      badRequest: (message) => throw  ApiErrorMessage(errorMessage:'api error: $message'),
+      noData: (message) => throw  ApiErrorMessage(errorMessage:'api error: $message'),
     );
   }
 }

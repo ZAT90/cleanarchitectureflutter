@@ -3,7 +3,7 @@ import 'package:cleanarchitectureflutter/core/constants/ui_constants.dart';
 import 'package:cleanarchitectureflutter/core/utils/helpers.dart';
 import 'package:cleanarchitectureflutter/core/utils/logger.dart';
 import 'package:cleanarchitectureflutter/core/utils/nav_args.dart';
-import 'package:cleanarchitectureflutter/screens/home/models/response/post_response.dart';
+import 'package:cleanarchitectureflutter/screens/home/data/models/response/post_response.dart';
 import 'package:cleanarchitectureflutter/screens/home/presentation/blocs/home/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

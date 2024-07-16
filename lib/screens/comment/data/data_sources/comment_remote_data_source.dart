@@ -1,7 +1,7 @@
 import 'package:cleanarchitectureflutter/core/constants/api_constants.dart';
 import 'package:cleanarchitectureflutter/core/network/network_service.dart';
 import 'package:cleanarchitectureflutter/core/utils/logger.dart';
-import 'package:cleanarchitectureflutter/screens/comment/models/response/comment_response.dart';
+import 'package:cleanarchitectureflutter/screens/comment/data/models/response/comment_response.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton

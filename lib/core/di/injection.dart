@@ -1,7 +1,9 @@
 import 'package:cleanarchitectureflutter/core/di/injection.config.dart';
-import 'package:cleanarchitectureflutter/screens/comment/domain/repo/comment_repo.dart';
+import 'package:cleanarchitectureflutter/screens/comment/domain/repositories/comment_repo.dart';
+import 'package:cleanarchitectureflutter/screens/comment/domain/usecases/get_comments_usecase.dart';
 import 'package:cleanarchitectureflutter/screens/comment/presentation/blocs/comment/comment_bloc.dart';
-import 'package:cleanarchitectureflutter/screens/home/domain/repo/home_repo.dart';
+import 'package:cleanarchitectureflutter/screens/home/domain/repositories/home_repo.dart';
+import 'package:cleanarchitectureflutter/screens/home/domain/usecases/get_posts_usecase.dart';
 import 'package:cleanarchitectureflutter/screens/home/presentation/blocs/home/home_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -17,13 +19,19 @@ void setupInjection() => getIt.init();
 @module
 abstract class RegisterModule {
   // @lazySingleton
-  // HomeRepository get homeRepository => getIt<HomeRepository>();
+ 
   @factoryMethod
+  // Register all use cases
+  GetPostsUseCase get getPostsUseCase =>
+      GetPostsUseCase(getIt<HomeRepository>());
+  GetCommentsUseCase get getCommentsUseCase =>
+      GetCommentsUseCase(getIt<CommentRepository>());
+   // Register All Blocs
   HomeBloc get homeBloc => HomeBloc(
-        getIt<HomeRepository>(),
+        getIt<GetPostsUseCase>(),
       );
   @factoryMethod
   CommentBloc get commentBloc => CommentBloc(
-        getIt<CommentRepository>(),
+        getIt<GetCommentsUseCase>(),
       );
 }

@@ -1,4 +1,4 @@
-import 'package:cleanarchitectureflutter/screens/home/models/response/post_response.dart';
+import 'package:cleanarchitectureflutter/screens/home/data/models/response/post_response.dart';
 
 class CommentNavArgs {
   const CommentNavArgs({required this.post});
