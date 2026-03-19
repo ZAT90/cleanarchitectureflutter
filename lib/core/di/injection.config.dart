@@ -24,7 +24,7 @@ import '../../screens/home/data/repositories/home_repo_impl.dart' as _i13;
 import '../../screens/home/domain/repositories/home_repo.dart' as _i12;
 import '../../screens/home/domain/usecases/get_posts_usecase.dart' as _i3;
 import '../../screens/home/presentation/blocs/home/home_bloc.dart' as _i5;
-import '../network/network_service.dart' as _i7;
+import '../network/network_service2.dart' as _i7;
 import 'injection.dart' as _i14;
 
 extension GetItInjectableX on _i1.GetIt {

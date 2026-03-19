@@ -15,6 +15,228 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
+mixin _$CommentEvent {
+  PostResponse? get post => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(PostResponse? post) loadComments,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(PostResponse? post)? loadComments,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(PostResponse? post)? loadComments,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_LoadComments value) loadComments,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_LoadComments value)? loadComments,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_LoadComments value)? loadComments,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $CommentEventCopyWith<CommentEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CommentEventCopyWith<$Res> {
+  factory $CommentEventCopyWith(
+          CommentEvent value, $Res Function(CommentEvent) then) =
+      _$CommentEventCopyWithImpl<$Res, CommentEvent>;
+  @useResult
+  $Res call({PostResponse? post});
+
+  $PostResponseCopyWith<$Res>? get post;
+}
+
+/// @nodoc
+class _$CommentEventCopyWithImpl<$Res, $Val extends CommentEvent>
+    implements $CommentEventCopyWith<$Res> {
+  _$CommentEventCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? post = freezed,
+  }) {
+    return _then(_value.copyWith(
+      post: freezed == post
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as PostResponse?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PostResponseCopyWith<$Res>? get post {
+    if (_value.post == null) {
+      return null;
+    }
+
+    return $PostResponseCopyWith<$Res>(_value.post!, (value) {
+      return _then(_value.copyWith(post: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$LoadCommentsImplCopyWith<$Res>
+    implements $CommentEventCopyWith<$Res> {
+  factory _$$LoadCommentsImplCopyWith(
+          _$LoadCommentsImpl value, $Res Function(_$LoadCommentsImpl) then) =
+      __$$LoadCommentsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({PostResponse? post});
+
+  @override
+  $PostResponseCopyWith<$Res>? get post;
+}
+
+/// @nodoc
+class __$$LoadCommentsImplCopyWithImpl<$Res>
+    extends _$CommentEventCopyWithImpl<$Res, _$LoadCommentsImpl>
+    implements _$$LoadCommentsImplCopyWith<$Res> {
+  __$$LoadCommentsImplCopyWithImpl(
+      _$LoadCommentsImpl _value, $Res Function(_$LoadCommentsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? post = freezed,
+  }) {
+    return _then(_$LoadCommentsImpl(
+      freezed == post
+          ? _value.post
+          : post // ignore: cast_nullable_to_non_nullable
+              as PostResponse?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LoadCommentsImpl implements _LoadComments {
+  const _$LoadCommentsImpl(this.post);
+
+  @override
+  final PostResponse? post;
+
+  @override
+  String toString() {
+    return 'CommentEvent.loadComments(post: $post)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LoadCommentsImpl &&
+            (identical(other.post, post) || other.post == post));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, post);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadCommentsImplCopyWith<_$LoadCommentsImpl> get copyWith =>
+      __$$LoadCommentsImplCopyWithImpl<_$LoadCommentsImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(PostResponse? post) loadComments,
+  }) {
+    return loadComments(post);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(PostResponse? post)? loadComments,
+  }) {
+    return loadComments?.call(post);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(PostResponse? post)? loadComments,
+    required TResult orElse(),
+  }) {
+    if (loadComments != null) {
+      return loadComments(post);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_LoadComments value) loadComments,
+  }) {
+    return loadComments(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_LoadComments value)? loadComments,
+  }) {
+    return loadComments?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_LoadComments value)? loadComments,
+    required TResult orElse(),
+  }) {
+    if (loadComments != null) {
+      return loadComments(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LoadComments implements CommentEvent {
+  const factory _LoadComments(final PostResponse? post) = _$LoadCommentsImpl;
+
+  @override
+  PostResponse? get post;
+  @override
+  @JsonKey(ignore: true)
+  _$$LoadCommentsImplCopyWith<_$LoadCommentsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$CommentState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -484,227 +706,5 @@ abstract class _GetCommentsAndPost implements CommentState {
   List<CommentResponse>? get comments;
   @JsonKey(ignore: true)
   _$$GetCommentsAndPostImplCopyWith<_$GetCommentsAndPostImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-mixin _$CommentEvent {
-  PostResponse? get post => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(PostResponse? post) loadComments,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(PostResponse? post)? loadComments,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(PostResponse? post)? loadComments,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_LoadComments value) loadComments,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadComments value)? loadComments,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadComments value)? loadComments,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $CommentEventCopyWith<CommentEvent> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $CommentEventCopyWith<$Res> {
-  factory $CommentEventCopyWith(
-          CommentEvent value, $Res Function(CommentEvent) then) =
-      _$CommentEventCopyWithImpl<$Res, CommentEvent>;
-  @useResult
-  $Res call({PostResponse? post});
-
-  $PostResponseCopyWith<$Res>? get post;
-}
-
-/// @nodoc
-class _$CommentEventCopyWithImpl<$Res, $Val extends CommentEvent>
-    implements $CommentEventCopyWith<$Res> {
-  _$CommentEventCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? post = freezed,
-  }) {
-    return _then(_value.copyWith(
-      post: freezed == post
-          ? _value.post
-          : post // ignore: cast_nullable_to_non_nullable
-              as PostResponse?,
-    ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $PostResponseCopyWith<$Res>? get post {
-    if (_value.post == null) {
-      return null;
-    }
-
-    return $PostResponseCopyWith<$Res>(_value.post!, (value) {
-      return _then(_value.copyWith(post: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$LoadCommentsImplCopyWith<$Res>
-    implements $CommentEventCopyWith<$Res> {
-  factory _$$LoadCommentsImplCopyWith(
-          _$LoadCommentsImpl value, $Res Function(_$LoadCommentsImpl) then) =
-      __$$LoadCommentsImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({PostResponse? post});
-
-  @override
-  $PostResponseCopyWith<$Res>? get post;
-}
-
-/// @nodoc
-class __$$LoadCommentsImplCopyWithImpl<$Res>
-    extends _$CommentEventCopyWithImpl<$Res, _$LoadCommentsImpl>
-    implements _$$LoadCommentsImplCopyWith<$Res> {
-  __$$LoadCommentsImplCopyWithImpl(
-      _$LoadCommentsImpl _value, $Res Function(_$LoadCommentsImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? post = freezed,
-  }) {
-    return _then(_$LoadCommentsImpl(
-      freezed == post
-          ? _value.post
-          : post // ignore: cast_nullable_to_non_nullable
-              as PostResponse?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$LoadCommentsImpl implements _LoadComments {
-  const _$LoadCommentsImpl(this.post);
-
-  @override
-  final PostResponse? post;
-
-  @override
-  String toString() {
-    return 'CommentEvent.loadComments(post: $post)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LoadCommentsImpl &&
-            (identical(other.post, post) || other.post == post));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, post);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$LoadCommentsImplCopyWith<_$LoadCommentsImpl> get copyWith =>
-      __$$LoadCommentsImplCopyWithImpl<_$LoadCommentsImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(PostResponse? post) loadComments,
-  }) {
-    return loadComments(post);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(PostResponse? post)? loadComments,
-  }) {
-    return loadComments?.call(post);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(PostResponse? post)? loadComments,
-    required TResult orElse(),
-  }) {
-    if (loadComments != null) {
-      return loadComments(post);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_LoadComments value) loadComments,
-  }) {
-    return loadComments(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadComments value)? loadComments,
-  }) {
-    return loadComments?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadComments value)? loadComments,
-    required TResult orElse(),
-  }) {
-    if (loadComments != null) {
-      return loadComments(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _LoadComments implements CommentEvent {
-  const factory _LoadComments(final PostResponse? post) = _$LoadCommentsImpl;
-
-  @override
-  PostResponse? get post;
-  @override
-  @JsonKey(ignore: true)
-  _$$LoadCommentsImplCopyWith<_$LoadCommentsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -17,7 +17,7 @@ class AppRoutes {
             builder: (_) => BlocProvider<HomeBloc>(
                   create: (context) =>
                       getIt<HomeBloc>()..add(const HomeEvent.loadItems()),
-                  child: HomePage(),
+                  child: const HomePage(),
                 ));
       case NavigationConstants.comment:
         CommentNavArgs commentNavArgs = settings.arguments as CommentNavArgs;

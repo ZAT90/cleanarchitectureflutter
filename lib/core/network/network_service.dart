@@ -1,18 +1,16 @@
 import 'package:cleanarchitectureflutter/core/constants/api_constants.dart';
+import 'package:cleanarchitectureflutter/core/network/auth_interceptor.dart';
 import 'package:cleanarchitectureflutter/core/network/models/network_request_body.dart';
 import 'package:cleanarchitectureflutter/core/network/models/network_response.dart';
 import 'package:cleanarchitectureflutter/core/network/network_methods.dart';
-import 'package:cleanarchitectureflutter/core/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-class AccessTokenResponse {
-  String? accessToken;
-  AccessTokenResponse.fromJson(Map<String, dynamic> json) {
-    accessToken = json['access_token'];
-  }
-}
+// --- Auth Interceptor ---
+// This lives here or in its own file. It handles the "Bearer" token
+// automatically for every request once set.
 
+// --- Network Request Model ---
 enum NetworkRequestType { GET, POST, PUT, PATCH, DELETE }
 
 class NetworkRequest {
@@ -31,256 +29,173 @@ class NetworkRequest {
   final Map<String, String>? headers;
 }
 
-class _PreparedNetworkRequest<Model> {
-  const _PreparedNetworkRequest(
-    this.request,
-    // this.parser,
-    this.dio,
-    this.headers,
-    this.onSendProgress,
-    this.onReceiveProgress,
-  );
-  final NetworkRequest request;
-  // final Model Function(dynamic) parser;
-  final Dio dio;
-  final Map<String, dynamic> headers;
-  final ProgressCallback? onSendProgress;
-  final ProgressCallback? onReceiveProgress;
-}
-
-Future<NetworkResponse<Model>> executeRequest<Model>(
-  _PreparedNetworkRequest preparedNetworkRequest,
-) async {
-  try {
-    // print(
-    //     '_PreparedNetworkRequest request data: ${preparedNetworkRequest.request.data}');
-    // print(
-    //     '_PreparedNetworkRequest request headers: ${preparedNetworkRequest.dio.options.baseUrl}');
-    //     print(
-    //     '_PreparedNetworkRequest request path: ${preparedNetworkRequest.request.path}');
-
-    dynamic body = preparedNetworkRequest.request.data?.whenOrNull(
-      json: (data) => data,
-      text: (data) => data,
-    );
-    final response = await preparedNetworkRequest.dio.request(
-      preparedNetworkRequest.request.path,
-      data: body,
-      queryParameters: preparedNetworkRequest.request.queryParams,
-      options: Options(
-        method: preparedNetworkRequest.request.type.name,
-        headers: preparedNetworkRequest.headers,
-      ),
-      onSendProgress: preparedNetworkRequest.onSendProgress,
-      onReceiveProgress: preparedNetworkRequest.onReceiveProgress,
-    );
-    // print('response _preparedNetworkRequest: ${response.data}');
-    return NetworkResponse.ok(response.data);
-  } on DioException catch (error) {
-    print('error: ${error}');
-    final errorText = error.toString();
-    if (error.requestOptions.cancelToken != null &&
-        error.requestOptions.cancelToken!.isCancelled) {
-      return NetworkResponse.noData(errorText);
-    }
-    switch (error.type) {
-      case DioExceptionType.connectionTimeout:
-      case DioExceptionType.receiveTimeout:
-      case DioExceptionType.sendTimeout:
-        return const NetworkResponse.noData(
-            "Connection timeout. Please try again.");
-      case DioExceptionType.badResponse:
-        logger.d('badResponse detected');
-        switch (error.response?.statusCode) {
-          case 400:
-            return NetworkResponse.badRequest(errorText);
-          case 401:
-            return NetworkResponse.noAuth(errorText);
-          case 403:
-            return NetworkResponse.noAccess(errorText);
-          case 404:
-            return NetworkResponse.notFound(errorText);
-          case 409:
-            return NetworkResponse.conflict(errorText);
-          default:
-            return NetworkResponse.noData(errorText);
-        }
-      case DioExceptionType.cancel:
-        return const NetworkResponse.noData("Request was cancelled.");
-      case DioExceptionType.unknown:
-        if (error.message!.contains("SocketException")) {
-          return const NetworkResponse.noData(
-              "No internet connection. Please check your network settings.");
-        }
-        return NetworkResponse.noData(errorText);
-      default:
-        return NetworkResponse.noData(errorText);
-    }
-    // switch (error.response?.statusCode) {
-    //   case 400:
-    //     return NetworkResponse.badRequest(errorText);
-    //   case 401:
-    //     return NetworkResponse.noAuth(errorText);
-    //   case 403:
-    //     return NetworkResponse.noAccess(errorText);
-    //   case 404:
-    //     return NetworkResponse.notFound(errorText);
-    //   case 409:
-    //     return NetworkResponse.conflict(errorText);
-    //   default:
-    //     return NetworkResponse.noData(errorText);
-    // }
-  } catch (error) {
-    return NetworkResponse.noData(error.toString());
-  }
-}
-
+// --- The Service ---
 @singleton
 class NetworkService implements NetworkMethods {
-  // NetworkService({
-  //   dioClient,
-  //   httpHeaders,
-  // })  : _dio = dioClient,
-  //       _headers = httpHeaders ?? {};
-  Dio? _dio;
-  //String baseUrl = ApiConstants.baseUrl;
-  String baseUrl = ApiConstants.baseUrl;
-  final Map<String, String> _headers = <String, String>{};
-  Future<Dio> _getDefaultDioClient() async {
-    _headers['content-type'] = 'application/json; charset=utf-8';
-    Dio dio = Dio()
-      ..options.baseUrl = baseUrl
-      ..options.headers = _headers
-      ..options.connectTimeout = const Duration(seconds: 5000) // 5 seconds
-      ..options.receiveTimeout = const Duration(seconds: 3000); // 3 seconds
-    return dio;
+  late final Dio _dio;
+  final AuthInterceptor _authInterceptor = AuthInterceptor();
+
+  NetworkService() {
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: ApiConstants.baseUrl,
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      ),
+    );
+
+    // Add interceptors: Auth + Logger
+    _dio.interceptors.add(_authInterceptor);
+    _dio.interceptors.add(LogInterceptor(
+      requestHeader: true,
+      requestBody: true,
+      responseHeader: false,
+      responseBody: true,
+      error: true,
+    ));
   }
 
+  /// Use this method after login to update the token globally
   void addBasicAuth(String accessToken) {
-    _headers['Authorization'] = 'Bearer $accessToken';
+    _authInterceptor.updateToken(accessToken);
   }
 
-  Future<NetworkResponse<Model>> execute<Model>(
-    NetworkRequest request,
-    // Model Function(dynamic) parser,
-    {
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
+  /// The main execution logic
+  Future<NetworkResponse<T>> execute<T>(
+    NetworkRequest request, {
+    T Function(dynamic)? parser, // The "Recipe"
   }) async {
-    _dio = await _getDefaultDioClient();
-    // print('_dio: ${_dio!.options.baseUrl}');
-    // print('_headers: $_headers');
-    // print('request: ${request.path}');
+    try {
+      final body = request.data?.whenOrNull(
+        json: (data) => data,
+        text: (data) => data,
+      );
 
-    final req = _PreparedNetworkRequest<Model>(
-      request,
-      //  parser,
-      _dio!,
-      {..._headers, ...(request.headers ?? {})},
-      onSendProgress,
-      onReceiveProgress,
-    );
-    final result = await executeRequest<Model>(
-      req,
-    );
-    // final result = await compute(
-    //   executeRequest<Model>,
-    //   req,
-    // );
-    return result;
+      final response = await _dio.request(
+        request.path,
+        data: body,
+        queryParameters: request.queryParams,
+        options: Options(
+          method: request.type.name,
+          headers: request.headers,
+        ),
+      );
+
+      final rawData = response.data;
+
+      // If a parser is provided, we use it to transform the data immediately
+      if (parser != null && rawData != null) {
+        return NetworkResponse.ok(parser(rawData));
+      }
+
+      // Otherwise, we return the raw data cast to T
+      return NetworkResponse.ok(rawData as T);
+    } on DioException catch (error) {
+      return _handleDioError<T>(error);
+    } catch (error) {
+      return NetworkResponse.noData(error.toString());
+    }
+  }
+
+  NetworkResponse<T> _handleDioError<T>(DioException error) {
+    final errorText = error.message ?? "Unknown error occurred";
+
+    if (error.type == DioExceptionType.connectionTimeout ||
+        error.type == DioExceptionType.receiveTimeout) {
+      return const NetworkResponse.noData("Connection timeout.");
+    }
+
+    if (error.response != null) {
+      return switch (error.response!.statusCode) {
+        400 => NetworkResponse.badRequest(errorText),
+        401 => NetworkResponse.noAuth(errorText),
+        403 => NetworkResponse.noAccess(errorText),
+        404 => NetworkResponse.notFound(errorText),
+        409 => NetworkResponse.conflict(errorText),
+        _ => NetworkResponse.noData(errorText),
+      };
+    }
+
+    return NetworkResponse.noData(errorText);
+  }
+
+  // --- Implementation of NetworkMethods ---
+
+  @override
+  Future<NetworkResponse<T>> get<T>({
+    required String path,
+    Map<String, dynamic>? queryParams,
+    T Function(dynamic)? parser,
+  }) {
+    return execute<T>(
+        NetworkRequest(
+          type: NetworkRequestType.GET,
+          path: path,
+          queryParams: queryParams,
+        ),
+        parser: parser);
   }
 
   @override
-  Future<NetworkResponse<T>> delete<T>(
-      {required String path, Map<String, dynamic>? queryParams}) async {
-    final request = NetworkRequest(
-      type: NetworkRequestType.DELETE,
-      path: path,
-      queryParams: queryParams,
-    );
-
+  Future<NetworkResponse<T>> post<T>({
+    required String path,
+    NetworkRequestBody? requestBody,
+    Map<String, dynamic>? queryParams,
+    T Function(dynamic)? parser,
+  }) {
     return execute<T>(
-      request,
-    );
+        NetworkRequest(
+            type: NetworkRequestType.POST,
+            path: path,
+            queryParams: queryParams,
+            data: requestBody),
+        parser: parser);
   }
 
   @override
-  Future<NetworkResponse<T>> get<T>(
-      {required String path, Map<String, dynamic>? queryParams}) {
-    final request = NetworkRequest(
-      type: NetworkRequestType.GET,
-      path: path,
-      queryParams: queryParams,
-    );
-
+  Future<NetworkResponse<T>> delete<T>({
+    required String path,
+    Map<String, dynamic>? queryParams,
+    T Function(dynamic)? parser,
+  }) {
     return execute<T>(
-      request,
-    );
+        NetworkRequest(
+            type: NetworkRequestType.DELETE,
+            path: path,
+            queryParams: queryParams),
+        parser: parser);
   }
 
   @override
-  Future<NetworkResponse<T>> patch<T>(
-      {required String path, requestBody, Map<String, dynamic>? queryParams}) {
-    final request = NetworkRequest(
-        type: NetworkRequestType.PATCH,
-        path: path,
-        queryParams: queryParams,
-        data: requestBody);
-
+  Future<NetworkResponse<T>> patch<T>({
+    required String path,
+    NetworkRequestBody? requestBody,
+    Map<String, dynamic>? queryParams,
+    T Function(dynamic)? parser,
+  }) {
     return execute<T>(
-      request,
-    );
+        NetworkRequest(
+            type: NetworkRequestType.PATCH,
+            path: path,
+            queryParams: queryParams,
+            data: requestBody),
+        parser: parser);
   }
 
   @override
-  Future<NetworkResponse<T>> post<T>(
-      {required String path, requestBody, Map<String, dynamic>? queryParams}) {
-    final request = NetworkRequest(
-        type: NetworkRequestType.POST,
-        path: path,
-        queryParams: queryParams,
-        data: requestBody);
-
+  Future<NetworkResponse<T>> put<T>({
+    required String path,
+    NetworkRequestBody? requestBody,
+    Map<String, dynamic>? queryParams,
+    T Function(dynamic)? parser,
+  }) {
     return execute<T>(
-      request,
-    );
-  }
-
-  @override
-  Future<NetworkResponse<T>> put<T>(
-      {required String path, requestBody, Map<String, dynamic>? queryParams}) {
-    final request = NetworkRequest(
-      type: NetworkRequestType.PUT,
-      path: path,
-      queryParams: queryParams,
-    );
-
-    return execute<T>(
-      request,
-    );
+        NetworkRequest(
+            type: NetworkRequestType.PUT,
+            path: path,
+            queryParams: queryParams,
+            data: requestBody),
+        parser: parser);
   }
 }
-
-// Future<NetworkResponse<Model>> execute<Model>(
-//   NetworkRequest request,
-//   Model Function(Map<String, dynamic>) parser, {
-//   ProgressCallback? onSendProgress = null,
-//   ProgressCallback? onReceiveProgress = null,
-// }) async {
-//   if (_dio == null) {
-//     _dio = await _getDefaultDioClient();
-//   }
-//   final req = _PreparedNetworkRequest<Model>(
-//     request,
-//     parser,
-//     _dio!,
-//     {..._headers, ...(request.headers ?? {})},
-//     onSendProgress,
-//     onReceiveProgress,
-//   );
-//   final result = await compute(
-//     executeRequest<Model>,
-//     req,
-//   );
-//   return result;
-// }

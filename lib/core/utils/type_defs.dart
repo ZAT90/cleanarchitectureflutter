@@ -1,9 +1,23 @@
 import 'package:cleanarchitectureflutter/core/utils/error/api_error_message.dart';
-import 'package:dartz/dartz.dart';
 
-typedef ResultFuture<T> = Future<Either<ApiErrorMessage, T>>;
+/// Define a Native Sealed Result instead of using Dartz
+sealed class Result<T> {
+  const Result();
+}
 
-typedef ResultVoid = Future<Either<ApiErrorMessage, void>>;
+class Success<T> extends Result<T> {
+  final T data;
+  const Success(this.data);
+}
+
+class Failure<T> extends Result<T> {
+  final ApiErrorMessage error;
+  const Failure(this.error);
+}
+
+typedef ResultFuture<T> = Future<Result<T>>;
+
+typedef ResultVoid = Future<Result<void>>;
 
 typedef DataMap = Map<String, dynamic>;
 
