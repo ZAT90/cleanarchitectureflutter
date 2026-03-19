@@ -16,12 +16,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(this.getPostsUseCase) : super(const HomeState.initial()) {
     postsPagingController = _initPagingController();
     on<HomeEvent>((events, emit) async {
-      await events.when(refreshList: () async {
-        postsPagingController.refresh();
-      });
+      await events.when(
+        refreshList: () async {
+          postsPagingController.refresh();
+        },
+      );
     });
   }
-// ==========================================
+  // ==========================================
   // EXTRACTED PAGINATION LOGIC
   // ==========================================
   PagingController<int, PostResponse> _initPagingController() {
@@ -50,4 +52,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     postsPagingController.dispose();
     return super.close();
   }
+
+  // ==========================================
+  // HOW TO CLEAR TOKEN ON LOGOUT
+  // ==========================================
+  // To clear the auth token on logout, call:
+  // getIt<AuthInterceptor>().clearToken();
+  //
+  // Example usage in a logout event:
+  // void logout() {
+  //   getIt<AuthInterceptor>().clearToken();
+  //   // Navigate to login screen
+  // }
 }

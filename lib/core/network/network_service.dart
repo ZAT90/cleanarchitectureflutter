@@ -1,4 +1,5 @@
 import 'package:cleanarchitectureflutter/core/constants/api_constants.dart';
+import 'package:cleanarchitectureflutter/core/di/injection.dart';
 import 'package:cleanarchitectureflutter/core/network/auth_interceptor.dart';
 import 'package:cleanarchitectureflutter/core/network/models/network_request_body.dart';
 import 'package:cleanarchitectureflutter/core/network/models/network_response.dart';
@@ -30,10 +31,10 @@ class NetworkRequest {
 }
 
 // --- The Service ---
-@singleton
+@lazySingleton
 class NetworkService implements NetworkMethods {
   late final Dio _dio;
-  final AuthInterceptor _authInterceptor = AuthInterceptor();
+  final _authInterceptor = getIt<AuthInterceptor>();
 
   NetworkService() {
     _dio = Dio(

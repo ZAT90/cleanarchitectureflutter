@@ -13,20 +13,28 @@ part 'comment_state.dart';
 class CommentBloc extends Bloc<CommentEvent, CommentState> {
   final GetCommentsUseCase getCommentsUseCase;
   CommentBloc(this.getCommentsUseCase) : super(const CommentState.initial()) {
-    on<CommentEvent>((events, emit) async {
-      await events.when(loadComments: (PostResponse? post) async {
-        final commentsResponse =
-            await getCommentsUseCase.getComments(post!.id!);
-        logger.d('comment event called: $commentsResponse');
-        switch (commentsResponse) {
-          case Failure<List<CommentResponse>>(error: final apiError):
-            logger.e('api error: $apiError');
+    on<CommentEvent>((event, emit) async {
+      await event.when(
+        loadComments: (postId, post) async {
+          // Use post if available, otherwise create a default one
+          final postToUse = post ?? const PostResponse();
 
-          case Success<List<CommentResponse>>(data: final commentList):
-            emit(CommentState.getCommentsAndPost(
-                comments: commentList, post: post));
-        }
-      });
+          final commentsResponse = await getCommentsUseCase.getComments(postId);
+          logger.d('comment event called: $commentsResponse');
+          switch (commentsResponse) {
+            case Failure<List<CommentResponse>>(error: final apiError):
+              logger.e('api error: $apiError');
+
+            case Success<List<CommentResponse>>(data: final commentList):
+              emit(
+                CommentState.getCommentsAndPost(
+                  comments: commentList,
+                  post: postToUse,
+                ),
+              );
+          }
+        },
+      );
     });
   }
 }

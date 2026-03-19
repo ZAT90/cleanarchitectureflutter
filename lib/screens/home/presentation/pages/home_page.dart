@@ -4,8 +4,8 @@ import 'package:cleanarchitectureflutter/screens/home/data/models/response/post_
 import 'package:cleanarchitectureflutter/screens/home/presentation/blocs/home/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-// Import your bloc, states, and models here
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,9 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Posts'),
-      ),
+      appBar: AppBar(title: const Text('Posts')),
       // 1. Listen for standard Bloc states (like error Snackbars)
       body: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
@@ -63,10 +61,15 @@ class _HomePageState extends State<HomePage> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       onTap: () {
-                        // Navigate to comments later
-                        Navigator.pushNamed(
-                            context, NavigationConstants.comment,
-                            arguments: CommentNavArgs(post: post));
+                        // Navigate to comments using GoRouter
+                        // postId from path parameter, post object from extra
+                        context.pushNamed(
+                          NavigationConstants.commentRoute,
+                          pathParameters: {
+                            NavigationConstants.postIdParam: '${post.id}',
+                          },
+                          extra: CommentNavArgs(post: post),
+                        );
                       },
                     );
                   },

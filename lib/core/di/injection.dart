@@ -1,4 +1,5 @@
 import 'package:cleanarchitectureflutter/core/di/injection.config.dart';
+import 'package:cleanarchitectureflutter/core/network/auth_interceptor.dart';
 import 'package:cleanarchitectureflutter/screens/comment/domain/repositories/comment_repo.dart';
 import 'package:cleanarchitectureflutter/screens/comment/domain/usecases/get_comments_usecase.dart';
 import 'package:cleanarchitectureflutter/screens/comment/presentation/blocs/comment/comment_bloc.dart';
@@ -10,27 +11,29 @@ import 'package:injectable/injectable.dart';
 
 final GetIt getIt = GetIt.instance;
 @InjectableInit(
-    generateForDir: ['lib'],
-    initializerName: 'init', // Specify the directory for generation
-    preferRelativeImports: true,
-    asExtension: true)
+  generateForDir: ['lib'],
+  initializerName: 'init', // Specify the directory for generation
+  preferRelativeImports: true,
+  asExtension: true,
+)
 void setupInjection() => getIt.init();
 
 @module
 abstract class RegisterModule {
   // @lazySingleton
- 
+
   @factoryMethod
   // Register all use cases
   GetPostsUseCase get getPostsUseCase =>
       GetPostsUseCase(getIt<HomeRepository>());
   GetCommentsUseCase get getCommentsUseCase =>
       GetCommentsUseCase(getIt<CommentRepository>());
-   // Register All Blocs
-  HomeBloc get homeBloc => HomeBloc(
-        getIt<GetPostsUseCase>(),
-      );
-  CommentBloc get commentBloc => CommentBloc(
-        getIt<GetCommentsUseCase>(),
-      );
+  // Register All Blocs as lazySingleton (reuses same instance)
+  @lazySingleton
+  HomeBloc get homeBloc => HomeBloc(getIt<GetPostsUseCase>());
+  @lazySingleton
+  CommentBloc get commentBloc => CommentBloc(getIt<GetCommentsUseCase>());
+  // Register AuthInterceptor as lazySingleton
+  @lazySingleton
+  AuthInterceptor get authInterceptor => AuthInterceptor();
 }

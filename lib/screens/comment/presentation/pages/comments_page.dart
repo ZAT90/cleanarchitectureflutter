@@ -27,15 +27,99 @@ class _CommentsPageState extends State<CommentsPage> {
             },
           );
         },
+        listenWhen: (previous, current) => current.maybeWhen(
+          getCommentsAndPost: (post, comments) => true,
+          orElse: () => false,
+        ),
+        buildWhen: (previous, current) => current.maybeWhen(
+          initial: () => true,
+          getCommentsAndPost: (post, comments) => true,
+          loadInProgress: () => true,
+          orElse: () => false,
+        ),
         builder: (context, state) {
-          return SizedBox(
-            width: UiConstants(context).screenWidth,
-            height: UiConstants(context).screenHeight,
-            child: const Column(
-              // mainAxisAlignment: .center,
-              crossAxisAlignment: .center,
-              mainAxisSize: .min,
-              children: [Text('comments page load')],
+          return state.when(
+            initial: () => const Center(child: Text('Initial')),
+            loadInProgress: () =>
+                const Center(child: CircularProgressIndicator()),
+            getCommentsAndPost: (post, comments) => SizedBox(
+              width: UiConstants(context).screenWidth,
+              height: UiConstants(context).screenHeight,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Post Section
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    color: Colors.grey[200],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          post?.title ?? '',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          post?.body ?? '',
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(),
+                  // Comments Section
+                  Expanded(
+                    child: comments?.isEmpty ?? true
+                        ? const Center(child: Text('No comments'))
+                        : ListView.builder(
+                            itemCount: comments?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              final comment = comments![index];
+                              return Card(
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        comment.name ?? '',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        comment.email ?? '',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey[600],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        comment.body ?? '',
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                  ),
+                ],
+              ),
             ),
           );
         },
