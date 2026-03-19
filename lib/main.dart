@@ -1,4 +1,6 @@
+import 'package:cleanarchitectureflutter/components/global_network_wrapper.dart';
 import 'package:cleanarchitectureflutter/core/di/injection.dart';
+import 'package:cleanarchitectureflutter/core/network/network_checker/network/network_bloc.dart';
 import 'package:cleanarchitectureflutter/core/routes/app_router.dart';
 import 'package:cleanarchitectureflutter/core/utils/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(routerConfig: appRouter);
+    return MaterialApp.router(
+      routerConfig: appRouter,
+      builder: (context, child) => BlocProvider<NetworkBloc>(
+        create: (_) => getIt<NetworkBloc>()..add(const NetworkEvent.started()),
+        child: GlobalNetworkWrapper(child: child!),
+      ),
+    );
   }
 }
