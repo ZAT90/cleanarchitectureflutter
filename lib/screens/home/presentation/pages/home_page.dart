@@ -1,11 +1,11 @@
 import 'package:cleanarchitectureflutter/core/constants/navigation_constants.dart';
-import 'package:cleanarchitectureflutter/core/constants/ui_constants.dart';
-import 'package:cleanarchitectureflutter/core/utils/logger.dart';
 import 'package:cleanarchitectureflutter/core/utils/nav_args.dart';
 import 'package:cleanarchitectureflutter/screens/home/data/models/response/post_response.dart';
 import 'package:cleanarchitectureflutter/screens/home/presentation/blocs/home/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+// Import your bloc, states, and models here
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,62 +15,78 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //List<PostResponse> posts = [];
+  late final HomeBloc _homeBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    // Grab the bloc once in initState
+    _homeBloc = context.read<HomeBloc>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SizedBox(
-        height: UiConstants(context).screenHeight,
-        width: UiConstants(context).screenWidth,
-        child: BlocBuilder<HomeBloc, HomeState>(
-          
-          builder: (context, state) {
-            // logger.d('state in builder: $state');
-            return SingleChildScrollView(
-                child: state.whenOrNull(
-              initial: () => const Center(child: CircularProgressIndicator()),
-              loadAllPosts: (postList) {
-                return postListView(postList);
+      appBar: AppBar(
+        title: const Text('Posts'),
+      ),
+      // 1. Listen for standard Bloc states (like error Snackbars)
+      body: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          // Handle your actionSuccess / actionFailure here if needed
+        },
+
+        // 2. The PagingListener connects the UI to the controller in the Bloc
+        child: PagingListener<int, PostResponse>(
+          controller: _homeBloc.postsPagingController,
+
+          // It exposes the current state and the fetchNextPage callback
+          builder: (context, state, fetchNextPage) {
+            return RefreshIndicator(
+              onRefresh: () async {
+                // Refresh the controller directly here
+                _homeBloc.postsPagingController.refresh();
+                await Future.delayed(const Duration(milliseconds: 500));
               },
-            ));
+
+              // 3. PagedListView explicitly takes the state and callback
+              child: PagedListView<int, PostResponse>.separated(
+                state: state,
+                fetchNextPage: fetchNextPage,
+                builderDelegate: PagedChildBuilderDelegate<PostResponse>(
+                  itemBuilder: (context, post, index) {
+                    return ListTile(
+                      title: Text(post.title ?? 'No Title'),
+                      subtitle: Text(
+                        post.body ?? 'No Content',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      onTap: () {
+                        // Navigate to comments later
+                        Navigator.pushNamed(
+                            context, NavigationConstants.comment,
+                            arguments: CommentNavArgs(post: post));
+                      },
+                    );
+                  },
+
+                  // Optional: Customize your loading indicators
+                  firstPageProgressIndicatorBuilder: (_) =>
+                      const Center(child: CircularProgressIndicator()),
+                  newPageProgressIndicatorBuilder: (_) => const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
+                  noItemsFoundIndicatorBuilder: (_) =>
+                      const Center(child: Text('No posts found.')),
+                ),
+                separatorBuilder: (context, index) => const Divider(),
+              ),
+            );
           },
         ),
       ),
-    );
-  }
-
-  Widget postListView(List<PostResponse>? postList) {
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: postList!.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.all(10),
-          child: ListTile(
-            onTap: () => Navigator.pushNamed(
-                context, NavigationConstants.comment,
-                arguments: CommentNavArgs(post: postList[index])),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-                side: const BorderSide(color: Colors.black)),
-            title: Text(postList[index].title!),
-            subtitle: Text(
-              postList[index].body!,
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.arrow_right_alt_sharp)),
-          ),
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(
-          height: 5,
-        );
-      },
     );
   }
 }

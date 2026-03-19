@@ -11,7 +11,7 @@ import 'package:injectable/injectable.dart';
 // automatically for every request once set.
 
 // --- Network Request Model ---
-enum NetworkRequestType { GET, POST, PUT, PATCH, DELETE }
+enum NetworkRequestType { get, post, put, patch, delete }
 
 class NetworkRequest {
   const NetworkRequest({
@@ -47,13 +47,15 @@ class NetworkService implements NetworkMethods {
 
     // Add interceptors: Auth + Logger
     _dio.interceptors.add(_authInterceptor);
-    _dio.interceptors.add(LogInterceptor(
-      requestHeader: true,
-      requestBody: true,
-      responseHeader: false,
-      responseBody: true,
-      error: true,
-    ));
+    _dio.interceptors.add(
+      LogInterceptor(
+        requestHeader: true,
+        requestBody: true,
+        responseHeader: false,
+        responseBody: true,
+        error: true,
+      ),
+    );
   }
 
   /// Use this method after login to update the token globally
@@ -76,10 +78,7 @@ class NetworkService implements NetworkMethods {
         request.path,
         data: body,
         queryParameters: request.queryParams,
-        options: Options(
-          method: request.type.name,
-          headers: request.headers,
-        ),
+        options: Options(method: request.type.name, headers: request.headers),
       );
 
       final rawData = response.data;
@@ -129,12 +128,13 @@ class NetworkService implements NetworkMethods {
     T Function(dynamic)? parser,
   }) {
     return execute<T>(
-        NetworkRequest(
-          type: NetworkRequestType.GET,
-          path: path,
-          queryParams: queryParams,
-        ),
-        parser: parser);
+      NetworkRequest(
+        type: NetworkRequestType.get,
+        path: path,
+        queryParams: queryParams,
+      ),
+      parser: parser,
+    );
   }
 
   @override
@@ -145,12 +145,14 @@ class NetworkService implements NetworkMethods {
     T Function(dynamic)? parser,
   }) {
     return execute<T>(
-        NetworkRequest(
-            type: NetworkRequestType.POST,
-            path: path,
-            queryParams: queryParams,
-            data: requestBody),
-        parser: parser);
+      NetworkRequest(
+        type: NetworkRequestType.post,
+        path: path,
+        queryParams: queryParams,
+        data: requestBody,
+      ),
+      parser: parser,
+    );
   }
 
   @override
@@ -160,11 +162,13 @@ class NetworkService implements NetworkMethods {
     T Function(dynamic)? parser,
   }) {
     return execute<T>(
-        NetworkRequest(
-            type: NetworkRequestType.DELETE,
-            path: path,
-            queryParams: queryParams),
-        parser: parser);
+      NetworkRequest(
+        type: NetworkRequestType.delete,
+        path: path,
+        queryParams: queryParams,
+      ),
+      parser: parser,
+    );
   }
 
   @override
@@ -175,12 +179,14 @@ class NetworkService implements NetworkMethods {
     T Function(dynamic)? parser,
   }) {
     return execute<T>(
-        NetworkRequest(
-            type: NetworkRequestType.PATCH,
-            path: path,
-            queryParams: queryParams,
-            data: requestBody),
-        parser: parser);
+      NetworkRequest(
+        type: NetworkRequestType.patch,
+        path: path,
+        queryParams: queryParams,
+        data: requestBody,
+      ),
+      parser: parser,
+    );
   }
 
   @override
@@ -191,11 +197,13 @@ class NetworkService implements NetworkMethods {
     T Function(dynamic)? parser,
   }) {
     return execute<T>(
-        NetworkRequest(
-            type: NetworkRequestType.PUT,
-            path: path,
-            queryParams: queryParams,
-            data: requestBody),
-        parser: parser);
+      NetworkRequest(
+        type: NetworkRequestType.put,
+        path: path,
+        queryParams: queryParams,
+        data: requestBody,
+      ),
+      parser: parser,
+    );
   }
 }

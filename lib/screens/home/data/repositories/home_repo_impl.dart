@@ -10,9 +10,9 @@ class HomeRepositoryImpl implements HomeRepository {
   final HomeRemoteDataSource homeRemoteDataSource;
   HomeRepositoryImpl(this.homeRemoteDataSource);
   @override
-  ResultFuture<List<PostResponse>> getPosts() async {
+  ResultFuture<List<PostResponse>> getPosts({required int page}) async {
     try {
-      return Success(await homeRemoteDataSource.getPosts());
+      return Success(await homeRemoteDataSource.getPosts(page: page));
     } on ApiErrorMessage catch (e) {
       // 3. Catch the specific error thrown by .getOrThrow()
       return Failure(e);

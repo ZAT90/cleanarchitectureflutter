@@ -3,6 +3,9 @@ part of 'home_bloc.dart';
 @freezed
 class HomeState with _$HomeState {
   const factory HomeState.initial() = _Initial;
-  const factory HomeState.loadInProgress() = _LoadInProgress;
-  const factory HomeState.loadAllPosts({List<PostResponse>? postList}) = _LoadAllPosts;
+// Example: If you need to show a SnackBar when a user deletes a post
+  const factory HomeState.actionSuccess(String message) = _ActionSuccess;
+
+  // Example: If a non-pagination API call fails
+  const factory HomeState.actionFailure(String error) = _ActionFailure;
 }

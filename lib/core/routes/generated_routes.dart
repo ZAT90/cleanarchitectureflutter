@@ -15,8 +15,7 @@ class AppRoutes {
       case NavigationConstants.home:
         return MaterialPageRoute(
             builder: (_) => BlocProvider<HomeBloc>(
-                  create: (context) =>
-                      getIt<HomeBloc>()..add(const HomeEvent.loadItems()),
+                  create: (context) => getIt<HomeBloc>(),
                   child: const HomePage(),
                 ));
       case NavigationConstants.comment:

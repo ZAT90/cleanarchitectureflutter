@@ -20,7 +20,6 @@ class _CommentsPageState extends State<CommentsPage> {
       appBar: AppBar(),
       body: BlocConsumer<CommentBloc, CommentState>(
         listener: (context, state) {
-          // TODO: implement listener
           state.whenOrNull(
             getCommentsAndPost: (post, comments) {
               logger.d('post in comment page : $post');
@@ -32,7 +31,12 @@ class _CommentsPageState extends State<CommentsPage> {
           return SizedBox(
             width: UiConstants(context).screenWidth,
             height: UiConstants(context).screenHeight,
-            child: Text('comments page load'),
+            child: const Column(
+              // mainAxisAlignment: .center,
+              crossAxisAlignment: .center,
+              mainAxisSize: .min,
+              children: [Text('comments page load')],
+            ),
           );
         },
       ),
